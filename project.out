@@ -1,0 +1,256 @@
+SQL> /*
+SQL> CIS 353 - Database Design Project
+SQL> Edric Lin
+SQL> Emilio Braun
+SQL> Aaron Bager
+SQL> */
+SQL> --
+SQL> DROP TABLE Member CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Employee CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Job CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Department CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Product CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Supplier CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Transaction CASCADE CONSTRAINTS;
+DROP TABLE Transaction CASCADE CONSTRAINTS
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE MPhone CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE EPhone CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Prod_Trans CASCADE CONSTRAINTS;
+DROP TABLE Prod_Trans CASCADE CONSTRAINTS
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> --
+SQL> CREATE TABLE Member
+  2  (
+  3  mID	     INTEGER,
+  4  mFirst	     VARCHAR2(10)    NOT NULL,
+  5  mLast	     VARCHAR2(10)    NOT NULL,
+  6  mAddress	     VARCHAR2(30)    NOT NULL,
+  7  mFee	     INTEGER	     NOT NULL,
+  8  mType	     CHAR(1)	     NOT NULL,
+  9  a_mID	     INTEGER,
+ 10  --
+ 11  CONSTRAINT mIC01 PRIMARY KEY (mid),
+ 12  CONSTRAINT mIC02 FOREIGN KEY (a_mID)
+ 13  	     REFERENCES Member(mID)
+ 14  	     ON DELETE SET NULL
+ 15  	     DEFERRABLE INITIALLY DEFERRED,
+ 16  CONSTRAINT mIC03 CHECK (mFee = 100 OR mFee = 80),
+ 17  CONSTRAINT mIC04 CHECK (mType = 'P' OR mType = 'A'),
+ 18  CONSTRAINT mIC05 CHECK (NOT (mType = 'P' AND NOT (mFee = 100))),
+ 19  CONSTRAINT mIC06 CHECK (NOT (mType = 'A' AND NOT (mFee = 80)))
+ 20  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE Department
+  2  (
+  3  dID	     INTEGER,
+  4  dName	     VARCHAR2(10)    NOT NULL,
+  5  --
+  6  CONSTRAINT dIC01 PRIMARY KEY (dID)
+  7  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE Job
+  2  (
+  3  jID	     INTEGER,
+  4  jName	     VARCHAR2(10)    NOT NULL,
+  5  j_dID	     INTEGER,
+  6  --
+  7  CONSTRAINT jIC01 PRIMARY KEY (jID),
+  8  CONSTRAINT jIC02 FOREIGN KEY (j_dID)
+  9  	     REFERENCES Department(dID)
+ 10  	     DEFERRABLE INITIALLY DEFERRED
+ 11  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE Employee
+  2  (
+  3  eID	     INTEGER,
+  4  eFirst	     VARCHAR2(10)    NOT NULL,
+  5  eLast	     VARCHAR2(10)    NOT NULL,
+  6  eAddress	     VARCHAR2(30)    NOT NULL,
+  7  eSalary	     INTEGER	     NOT NULL,
+  8  s_eID	     INTEGER,
+  9  e_jID	     INTEGER	     NOT NULL,
+ 10  --
+ 11  CONSTRAINT eIC01 PRIMARY KEY (eID),
+ 12  CONSTRAINT eIC02 FOREIGN KEY (s_eID)
+ 13  	     REFERENCES Employee(eID)
+ 14  	     ON DELETE SET NULL
+ 15  	     DEFERRABLE INITIALLY DEFERRED,
+ 16  CONSTRAINT eIC03 FOREIGN KEY (e_jID)
+ 17  	     REFERENCES Job(jID)
+ 18  	     DEFERRABLE INITIALLY DEFERRED
+ 19  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE Supplier
+  2  (
+  3  sID	     INTEGER,
+  4  sName	     VARCHAR2(10)    NOT NULL,
+  5  --
+  6  CONSTRAINT sIC01 PRIMARY KEY (sid)
+  7  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE Product
+  2  (
+  3  pID	     INTEGER,
+  4  pName	     VARCHAR2(10)    NOT NULL,
+  5  pInventory      INTEGER	     NOT NULL,
+  6  pPrice	     NUMBER(5,2)     NOT NULL,
+  7  p_dID	     INTEGER	     NOT NULL,
+  8  p_sID	     INTEGER	     NOT NULL,
+  9  sDate	     DATE	     NOT NULL,
+ 10  --
+ 11  CONSTRAINT pIC01 PRIMARY KEY (pID),
+ 12  CONSTRAINT pIC02 FOREIGN KEY (p_dID)
+ 13  	     REFERENCES Department(dID)
+ 14  	     DEFERRABLE INITIALLY DEFERRED,
+ 15  CONSTRAINT pIC03 FOREIGN KEY (p_sID)
+ 16  	     REFERENCES Supplier(sID)
+ 17  	     DEFERRABLE INITIALLY DEFERRED
+ 18  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE Transaction
+  2  (
+  3  t_mID	     INTEGER,
+  4  tTimestamp      CHAR(17)	     NOT NULL,
+  5  tTotal	     NUMBER(6,2)     NOT NULL,
+  6  --
+  7  CONSTRAINT tIC01 PRIMARY KEY (t_mID, tTimestamp),
+  8  CONSTRAINT tIC02 FOREIGN KEY (t_mID)
+  9  	     REFERENCES Member(mID)
+ 10  	     DEFERRABLE INITIALLY DEFERRED
+ 11  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE MPhone
+  2  (
+  3  m_mID	     INTEGER,
+  4  mPhone	     CHAR(12),
+  5  --
+  6  CONSTRAINT mpIC01 PRIMARY KEY (m_mID, mPhone),
+  7  CONSTRAINT mpIC02 FOREIGN KEY (m_mID)
+  8  	     REFERENCES Member(mID)
+  9  	     DEFERRABLE INITIALLY DEFERRED
+ 10  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE EPhone
+  2  (
+  3  e_mID	     INTEGER,
+  4  ePhone	     CHAR(12),
+  5  --
+  6  CONSTRAINT epIC01 PRIMARY KEY (e_mID, ePhone),
+  7  CONSTRAINT epIC02 FOREIGN KEY (e_mID)
+  8  	     REFERENCES Member(mID)
+  9  	     DEFERRABLE INITIALLY DEFERRED
+ 10  );
+
+Table created.
+
+SQL> --
+SQL> CREATE TABLE Prod_Trans
+  2  (
+  3  pt_mID	     INTEGER,
+  4  pt_tTimestamp   CHAR(17),
+  5  pt_pID	     INTEGER,
+  6  --
+  7  CONSTRAINT ptIC01 PRIMARY KEY (pt_mID, pt_tTimestamp, pt_pID),
+  8  CONSTRAINT ptIC02 FOREIGN KEY (pt_mID, pt_tTimestamp)
+  9  	     REFERENCES Transaction(t_mID, tTimestamp)
+ 10  	     DEFERRABLE INITIALLY DEFERRED,
+ 11  CONSTRAINT ptIC03 FOREIGN KEY (pt_pID)
+ 12  	     REFERENCES Product(pID)
+ 13  	     DEFERRABLE INITIALLY DEFERRED
+ 14  );
+
+Table created.
+
+SQL> --
+SQL> SET FEEDBACK OFF
+SQL> < The INSERT statements that populate the tables>
+SP2-0734: unknown command beginning "< The INSE..." - rest of line ignored.
+SQL> Important: Keep the number of rows in each table small enough so that the results of your
+SP2-0734: unknown command beginning "Important:..." - rest of line ignored.
+SQL> queries can be verified by hand. See the Sailors database as an example.
+SP2-0734: unknown command beginning "queries ca..." - rest of line ignored.
+SQL> SET FEEDBACK ON
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> --
+SQL> < One query (per table) of the form: SELECT * FROM table; in order to print out your
+SP2-0734: unknown command beginning "< One quer..." - rest of line ignored.
+SQL> database >
+SP2-0042: unknown command "database >" - rest of line ignored.
+SQL> --
+SQL> < The SQL queries>. Include the following for each query:
+SP2-0734: unknown command beginning "< The SQL ..." - rest of line ignored.
+SQL> 1. A comment line stating the query number and the feature(s) it demonstrates
+SP2-0734: unknown command beginning "1. A comme..." - rest of line ignored.
+SQL> (e.g. – Q25 – correlated subquery).
+  2  2. A comment line stating the query in English.
+  3  3. The SQL code for the query.
+  4  --
+  5  < The insert/delete/update statements to test the enforcement of ICs >
+  6  Include the following items for every IC that you test (Important: see the next section titled
+  7  “Submit a final report” regarding which ICs to test).
+  8  ? A comment line stating: Testing: < IC name>
+  9  ? A SQL INSERT, DELETE, or UPDATE that will test the IC.
+ 10  COMMIT;
+SP2-0552: Bind variable "TESTING" not declared.
+SQL> --
+SQL> SPOOL OFF
