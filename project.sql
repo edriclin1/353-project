@@ -353,10 +353,10 @@ FROM Member M LEFT OUTER JOIN Transaction T ON M.mID = T.t_mID;
 --
 --
 /*(Q10) RANK Query
-Find the rank of the salary 30000 among all salaries.
+Find the rank of the salary 40000 among all salaries.
 */
 SELECT RANK(40000) WITHIN GROUP
-      (ORDER BY E.eSalary) "Rank of 30000"
+      (ORDER BY E.eSalary) "Rank of 40000"
 FROM Employee E;
 --
 -- 

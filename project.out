@@ -656,13 +656,13 @@ SQL> SELECT M.mID, M.mFirst, T.tTimestamp, T.tTotal
 SQL> --
 SQL> --
 SQL> /*(Q10) RANK Query
-SQL> Find the rank of the salary 30000 among all salaries.
+SQL> Find the rank of the salary 40000 among all salaries.
 SQL> */
 SQL> SELECT RANK(40000) WITHIN GROUP
-  2  	   (ORDER BY E.eSalary) "Rank of 30000"
+  2  	   (ORDER BY E.eSalary) "Rank of 40000"
   3  FROM Employee E;
 
-Rank of 30000                                                                   
+Rank of 40000                                                                   
 -------------                                                                   
             4                                                                   
 
