@@ -229,7 +229,9 @@ INSERT INTO EPhone VALUES ('14', '(616)-004-0404');
 INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '10');
 INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '11');
 INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '12');
+INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '10');
 INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '11');
+INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '12');
 INSERT INTO Prod_Trans VALUES ('12', '10/12/18 10:14:03', '12');
 INSERT INTO Prod_Trans VALUES ('13', '10/12/18 10:53:42', '13');
 INSERT INTO Prod_Trans VALUES ('14', '10/12/18 12:38:12', '14');
@@ -302,7 +304,8 @@ SELECT M.mID, M.mFirst
 FROM   Member M, Prod_Trans PT
 WHERE  M.mID = PT.pt_mID
 GROUP BY M.mID, M.mFirst
-HAVING COUNT(*) > 2;
+HAVING COUNT(*) > 2
+ORDER BY M.mID;
 --
 --
 /*(Q06) Correlated subquery
