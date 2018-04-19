@@ -1,3 +1,4 @@
+SQL> SET ECHO ON
 SQL> /*
 SQL> CIS 353 - Database Design Project
 SQL> Edric Lin
@@ -34,11 +35,8 @@ SQL> DROP TABLE Transaction CASCADE CONSTRAINTS;
 Table dropped.
 
 SQL> DROP TABLE MPhone CASCADE CONSTRAINTS;
-DROP TABLE MPhone CASCADE CONSTRAINTS
-           *
-ERROR at line 1:
-ORA-00942: table or view does not exist 
 
+Table dropped.
 
 SQL> DROP TABLE EPhone CASCADE CONSTRAINTS;
 DROP TABLE EPhone CASCADE CONSTRAINTS
@@ -156,8 +154,9 @@ SQL> CREATE TABLE Product
  16  CONSTRAINT pIC03 FOREIGN KEY (p_sID)
  17  	     REFERENCES Supplier(sID)
  18  	     ON DELETE CASCADE
- 19  	     DEFERRABLE INITIALLY DEFERRED
- 20  );
+ 19  	     DEFERRABLE INITIALLY DEFERRED,
+ 20  CONSTRAINT pIC04 CHECK (sDate LIKE '__/__/__')
+ 21  );
 
 Table created.
 
@@ -172,8 +171,9 @@ SQL> CREATE TABLE Transaction
   8  CONSTRAINT tIC02 FOREIGN KEY (t_mID)
   9  	     REFERENCES Member(mID)
  10  	     ON DELETE CASCADE
- 11  	     DEFERRABLE INITIALLY DEFERRED
- 12  );
+ 11  	     DEFERRABLE INITIALLY DEFERRED,
+ 12  CONSTRAINT tIC03 CHECK (tTimestamp LIKE '__/__/__ __:__:__')
+ 13  );
 
 Table created.
 
@@ -204,13 +204,10 @@ SQL> CREATE TABLE EPhone
   8  	     REFERENCES Member(mID)
   9  	     ON DELETE CASCADE
  10  	     DEFERRABLE INITIALLY DEFERRED,
- 11  CONSTRAINT epIC03 CHECK (mPhone LIKE '(___)-___-____')
+ 11  CONSTRAINT epIC03 CHECK (ePhone LIKE '(___)-___-____')
  12  );
-CONSTRAINT epIC03 CHECK (mPhone LIKE '(___)-___-____')
-                         *
-ERROR at line 11:
-ORA-00904: "MPHONE": invalid identifier 
 
+Table created.
 
 SQL> --
 SQL> CREATE TABLE Prod_Trans
