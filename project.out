@@ -232,13 +232,7 @@ SQL> INSERT INTO Member VALUES ('11', 'Logan', 'Gardner', '110 address', 100, 'P
 SQL> INSERT INTO Member VALUES ('12', 'Carl', 'Wheeler', '120 address', 80, 'A', NULL);
 SQL> INSERT INTO Member VALUES ('13', 'Jones', 'Vikema', '130 address', 100, 'P', NULL);
 SQL> INSERT INTO Member VALUES ('14', 'Gordon', 'Freddrick', '140 address', 80, 'A', NULL);
-SQL> INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 80, 'P', NULL);
-INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 80, 'P', NULL)
-*
-ERROR at line 1:
-ORA-02290: check constraint (LINE.MIC05) violated 
-
-
+SQL> INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 100, 'P', NULL);
 SQL> 
 SQL> --
 SQL> INSERT INTO Department VALUES ('10', 'Salesfloor');
@@ -330,8 +324,11 @@ SQL> SELECT * FROM Member;
         14 Gordon          Freddrick       140 address                          
         80 A                                                                    
                                                                                 
+        15 Charlie         Jones           150 address                          
+       100 P                                                                    
+                                                                                
 
-5 rows selected.
+6 rows selected.
 
 SQL> SELECT * FROM Department;
 
@@ -584,7 +581,11 @@ SQL> SELECT M.mID, M.mFirst
   5  			FROM Prod_Trans PT
   6  			WHERE PT.pt_mID = M.mID);
 
-no rows selected
+       MID MFIRST                                                               
+---------- ---------------                                                      
+        15 Charlie                                                              
+
+1 row selected.
 
 SQL> --
 SQL> --
@@ -597,7 +598,11 @@ SQL> SELECT M.mID, M.mFirst
   4  	    M.mID NOT IN (SELECT PT.pt_mID
   5  			  FROM Prod_Trans PT);
 
-no rows selected
+       MID MFIRST                                                               
+---------- ---------------                                                      
+        15 Charlie                                                              
+
+1 row selected.
 
 SQL> --
 SQL> --
@@ -633,8 +638,9 @@ SQL> SELECT M.mID, M.mFirst, T.tTimestamp, T.tTotal
         12 Carl            10/12/18 10:14:03         20                         
         13 Jones           10/12/18 10:53:42         15                         
         14 Gordon          10/12/18 12:38:12          5                         
+        15 Charlie                                                              
 
-5 rows selected.
+6 rows selected.
 
 SQL> --
 SQL> --
@@ -804,7 +810,7 @@ SQL> SELECT * FROM Member;
         14 Gordon          Freddrick       140 address                          
         80 A                                                                    
                                                                                 
-      1111 Aaa             Aaa             123 4th Street                       
+        15 Charlie         Jones           150 address                          
        100 P                                                                    
                                                                                 
 
@@ -812,13 +818,27 @@ SQL> SELECT * FROM Member;
 ---------- --------------- --------------- ------------------------------       
       MFEE M      A_MID                                                         
 ---------- - ----------                                                         
+      1111 Aaa             Aaa             123 4th Street                       
+       100 P                                                                    
+                                                                                
       3331 Ccc             Ccc             123 4th Street                       
        100 P                                                                    
                                                                                 
       3332 Ccc             Ccc             123 4th Street                       
         80 A                                                                    
                                                                                 
+
+       MID MFIRST          MLAST           MADDRESS                             
+---------- --------------- --------------- ------------------------------       
+      MFEE M      A_MID                                                         
+---------- - ----------                                                         
       4441 Fff             Fff             123 4th Street                       
+        80 A                                                                    
+                                                                                
+      4442 Fff             Fff             123 4th Street                       
+       100 P                                                                    
+                                                                                
+      5552 Ggg             Ggg             123 4th Street                       
         80 A                                                                    
                                                                                 
 
@@ -826,17 +846,11 @@ SQL> SELECT * FROM Member;
 ---------- --------------- --------------- ------------------------------       
       MFEE M      A_MID                                                         
 ---------- - ----------                                                         
-      4442 Fff             Fff             123 4th Street                       
-       100 P                                                                    
-                                                                                
-      5552 Ggg             Ggg             123 4th Street                       
-        80 A                                                                    
-                                                                                
       5553 Ggg             Ggg             123 4th Street                       
        100 P                                                                    
                                                                                 
 
-12 rows selected.
+13 rows selected.
 
 SQL> SELECT * FROM Employee;
 

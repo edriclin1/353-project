@@ -174,7 +174,7 @@ INSERT INTO Member VALUES ('11', 'Logan', 'Gardner', '110 address', 100, 'P', 12
 INSERT INTO Member VALUES ('12', 'Carl', 'Wheeler', '120 address', 80, 'A', NULL);
 INSERT INTO Member VALUES ('13', 'Jones', 'Vikema', '130 address', 100, 'P', NULL);
 INSERT INTO Member VALUES ('14', 'Gordon', 'Freddrick', '140 address', 80, 'A', NULL);
-INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 80, 'P', NULL);
+INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 100, 'P', NULL);
 
 --
 INSERT INTO Department VALUES ('10', 'Salesfloor');
