@@ -208,8 +208,8 @@ INSERT INTO Product VALUES ('13', 'Asus Laptop', 20, 500.00, '10', '12', TO_DATE
 INSERT INTO Product VALUES ('14', 'Fresh Chicken Roast', 30, 5.00, '13', '10', TO_DATE('10/10/18', 'MM/DD/YY')); 
 INSERT INTO Product VALUES ('15', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY')); 
 --
-INSERT INTO Transaction VALUES ('10', '10/12/18 08:12:50', 10);
-INSERT INTO Transaction VALUES ('11', '10/12/18 09:00:21', 40);
+INSERT INTO Transaction VALUES ('10', '10/12/18 08:12:50', 25);
+INSERT INTO Transaction VALUES ('11', '10/12/18 09:00:21', 25);
 INSERT INTO Transaction VALUES ('12', '10/12/18 10:14:03', 20);
 INSERT INTO Transaction VALUES ('13', '10/12/18 10:53:42', 15);
 INSERT INTO Transaction VALUES ('14', '10/12/18 12:38:12', 5);
@@ -227,11 +227,11 @@ INSERT INTO EPhone VALUES ('13', '(616)-003-0303');
 INSERT INTO EPhone VALUES ('14', '(616)-004-0404');
 --
 INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '10');
-INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '11');
 INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '12');
+INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '15');
 INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '10');
-INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '11');
 INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '12');
+INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '15');
 INSERT INTO Prod_Trans VALUES ('12', '10/12/18 10:14:03', '12');
 INSERT INTO Prod_Trans VALUES ('13', '10/12/18 10:53:42', '13');
 INSERT INTO Prod_Trans VALUES ('14', '10/12/18 12:38:12', '14');

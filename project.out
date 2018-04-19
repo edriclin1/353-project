@@ -266,8 +266,8 @@ SQL> INSERT INTO Product VALUES ('13', 'Asus Laptop', 20, 500.00, '10', '12', TO
 SQL> INSERT INTO Product VALUES ('14', 'Fresh Chicken Roast', 30, 5.00, '13', '10', TO_DATE('10/10/18', 'MM/DD/YY'));
 SQL> INSERT INTO Product VALUES ('15', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY'));
 SQL> --
-SQL> INSERT INTO Transaction VALUES ('10', '10/12/18 08:12:50', 10);
-SQL> INSERT INTO Transaction VALUES ('11', '10/12/18 09:00:21', 40);
+SQL> INSERT INTO Transaction VALUES ('10', '10/12/18 08:12:50', 25);
+SQL> INSERT INTO Transaction VALUES ('11', '10/12/18 09:00:21', 25);
 SQL> INSERT INTO Transaction VALUES ('12', '10/12/18 10:14:03', 20);
 SQL> INSERT INTO Transaction VALUES ('13', '10/12/18 10:53:42', 15);
 SQL> INSERT INTO Transaction VALUES ('14', '10/12/18 12:38:12', 5);
@@ -285,11 +285,11 @@ SQL> INSERT INTO EPhone VALUES ('13', '(616)-003-0303');
 SQL> INSERT INTO EPhone VALUES ('14', '(616)-004-0404');
 SQL> --
 SQL> INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '10');
-SQL> INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '11');
 SQL> INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '12');
+SQL> INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '15');
 SQL> INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '10');
-SQL> INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '11');
 SQL> INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '12');
+SQL> INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '15');
 SQL> INSERT INTO Prod_Trans VALUES ('12', '10/12/18 10:14:03', '12');
 SQL> INSERT INTO Prod_Trans VALUES ('13', '10/12/18 10:53:42', '13');
 SQL> INSERT INTO Prod_Trans VALUES ('14', '10/12/18 12:38:12', '14');
@@ -433,8 +433,8 @@ SQL> SELECT * FROM Transaction;
 
      T_MID TTIMESTAMP            TTOTAL                                         
 ---------- ----------------- ----------                                         
-        10 10/12/18 08:12:50         10                                         
-        11 10/12/18 09:00:21         40                                         
+        10 10/12/18 08:12:50         25                                         
+        11 10/12/18 09:00:21         25                                         
         12 10/12/18 10:14:03         20                                         
         13 10/12/18 10:53:42         15                                         
         14 10/12/18 12:38:12          5                                         
@@ -470,11 +470,11 @@ SQL> SELECT * FROM Prod_Trans;
     PT_MID PT_TTIMESTAMP         PT_PID                                         
 ---------- ----------------- ----------                                         
         10 10/12/18 08:12:50         10                                         
-        10 10/12/18 08:12:50         11                                         
         10 10/12/18 08:12:50         12                                         
+        10 10/12/18 08:12:50         15                                         
         11 10/12/18 09:00:21         10                                         
-        11 10/12/18 09:00:21         11                                         
         11 10/12/18 09:00:21         12                                         
+        11 10/12/18 09:00:21         15                                         
         12 10/12/18 10:14:03         12                                         
         13 10/12/18 10:53:42         13                                         
         14 10/12/18 12:38:12         14                                         
@@ -627,7 +627,12 @@ SQL> SELECT M.mID, M.mFirst
  10  			       PT.pt_pID = P.pID AND
  11  			       P.pName = 'Light Bulbs (4 pck.)'));
 
-no rows selected
+       MID MFIRST                                                               
+---------- ---------------                                                      
+        10 John                                                                 
+        11 Logan                                                                
+
+2 rows selected.
 
 SQL> --
 SQL> --
@@ -639,8 +644,8 @@ SQL> SELECT M.mID, M.mFirst, T.tTimestamp, T.tTotal
 
        MID MFIRST          TTIMESTAMP            TTOTAL                         
 ---------- --------------- ----------------- ----------                         
-        10 John            10/12/18 08:12:50         10                         
-        11 Logan           10/12/18 09:00:21         40                         
+        10 John            10/12/18 08:12:50         25                         
+        11 Logan           10/12/18 09:00:21         25                         
         12 Carl            10/12/18 10:14:03         20                         
         13 Jones           10/12/18 10:53:42         15                         
         14 Gordon          10/12/18 12:38:12          5                         
@@ -926,8 +931,8 @@ SQL> SELECT * FROM Transaction;
 
      T_MID TTIMESTAMP            TTOTAL                                         
 ---------- ----------------- ----------                                         
-        10 10/12/18 08:12:50         10                                         
-        11 10/12/18 09:00:21         40                                         
+        10 10/12/18 08:12:50         25                                         
+        11 10/12/18 09:00:21         25                                         
         12 10/12/18 10:14:03         20                                         
         13 10/12/18 10:53:42         15                                         
         14 10/12/18 12:38:12          5                                         
