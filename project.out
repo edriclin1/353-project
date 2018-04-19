@@ -232,6 +232,14 @@ SQL> INSERT INTO Member VALUES ('11', 'Logan', 'Gardner', '110 address', 100, 'P
 SQL> INSERT INTO Member VALUES ('12', 'Carl', 'Wheeler', '120 address', 80, 'A', NULL);
 SQL> INSERT INTO Member VALUES ('13', 'Jones', 'Vikema', '130 address', 100, 'P', NULL);
 SQL> INSERT INTO Member VALUES ('14', 'Gordon', 'Freddrick', '140 address', 80, 'A', NULL);
+SQL> INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 80, 'P', NULL);
+INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 80, 'P', NULL)
+*
+ERROR at line 1:
+ORA-02290: check constraint (LINE.MIC05) violated 
+
+
+SQL> 
 SQL> --
 SQL> INSERT INTO Department VALUES ('10', 'Salesfloor');
 SQL> INSERT INTO Department VALUES ('11', 'Checkout');
@@ -262,6 +270,7 @@ SQL> INSERT INTO Product VALUES ('11', 'Ramon Noodle Soup', 50, 2.00, '10', '10'
 SQL> INSERT INTO Product VALUES ('12', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY'));
 SQL> INSERT INTO Product VALUES ('13', 'Asus Laptop', 20, 500.00, '10', '12', TO_DATE('10/10/18', 'MM/DD/YY'));
 SQL> INSERT INTO Product VALUES ('14', 'Fresh Chicken Roast', 30, 5.00, '13', '10', TO_DATE('10/10/18', 'MM/DD/YY'));
+SQL> INSERT INTO Product VALUES ('15', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY'));
 SQL> --
 SQL> INSERT INTO Transaction VALUES ('10', '10/12/18 08:12:50', 10);
 SQL> INSERT INTO Transaction VALUES ('11', '10/12/18 09:00:21', 40);
@@ -282,6 +291,8 @@ SQL> INSERT INTO EPhone VALUES ('13', '(616)-003-0303');
 SQL> INSERT INTO EPhone VALUES ('14', '(616)-004-0404');
 SQL> --
 SQL> INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '10');
+SQL> INSERT INTO Prod_Trans VALUES ('10', '10/12/18 09:12:50', '11');
+SQL> INSERT INTO Prod_Trans VALUES ('10', '10/12/18 10:12:50', '12');
 SQL> INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '11');
 SQL> INSERT INTO Prod_Trans VALUES ('12', '10/12/18 10:14:03', '12');
 SQL> INSERT INTO Prod_Trans VALUES ('13', '10/12/18 10:53:42', '13');
@@ -289,180 +300,53 @@ SQL> INSERT INTO Prod_Trans VALUES ('14', '10/12/18 12:38:12', '14');
 SQL> --
 SQL> SET FEEDBACK ON
 SQL> COMMIT;
+COMMIT
+*
+ERROR at line 1:
+ORA-02091: transaction rolled back 
+ORA-02291: integrity constraint (LINE.PTIC02) violated - parent key not found 
 
-Commit complete.
 
 SQL> --
 SQL> SELECT * FROM Member;
 
-       MID MFIRST          MLAST           MADDRESS                             
----------- --------------- --------------- ------------------------------       
-      MFEE M      A_MID                                                         
----------- - ----------                                                         
-        10 John            Smith           100 address                          
-       100 P         14                                                         
-                                                                                
-        11 Logan           Gardner         110 address                          
-       100 P         12                                                         
-                                                                                
-        12 Carl            Wheeler         120 address                          
-        80 A                                                                    
-                                                                                
-
-       MID MFIRST          MLAST           MADDRESS                             
----------- --------------- --------------- ------------------------------       
-      MFEE M      A_MID                                                         
----------- - ----------                                                         
-        13 Jones           Vikema          130 address                          
-       100 P                                                                    
-                                                                                
-        14 Gordon          Freddrick       140 address                          
-        80 A                                                                    
-                                                                                
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Department;
 
-       DID DNAME                                                                
----------- ------------------------------                                       
-        10 Salesfloor                                                           
-        11 Checkout                                                             
-        12 Photo                                                                
-        13 Food                                                                 
-        14 Pharmacy                                                             
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Job;
 
-       JID JNAME                               J_DID                            
----------- ------------------------------ ----------                            
-        10 Cashier                                11                            
-        11 Chef                                   13                            
-        12 Sales Associate                        10                            
-        13 Photographer                           12                            
-        14 Pharmacist                             14                            
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Employee;
 
-       EID EFIRST          ELAST           EADDRESS                             
----------- --------------- --------------- ------------------------------       
-   ESALARY      S_EID      E_JID                                                
----------- ---------- ----------                                                
-        10 Jane            Smith           100 address                          
-     25000         11         10                                                
-                                                                                
-        11 Jill            Howard          110 address                          
-     30000                    13                                                
-                                                                                
-        12 Dave            Tillman         120 address                          
-     40000                    11                                                
-                                                                                
-
-       EID EFIRST          ELAST           EADDRESS                             
----------- --------------- --------------- ------------------------------       
-   ESALARY      S_EID      E_JID                                                
----------- ---------- ----------                                                
-        13 Mary            Freeman         130 address                          
-     55000                    14                                                
-                                                                                
-        14 Holly           North           100 address                          
-     30000         10         12                                                
-                                                                                
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Supplier;
 
-       SID SNAME                                                                
----------- ------------------------------                                       
-        10 Gordons Food Service                                                 
-        11 Meijers                                                              
-        12 Best Buy                                                             
-        13 Sparrow Health                                                       
-        14 BnH Photo Video                                                      
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Product;
 
-       PID PNAME                          PINVENTORY     PPRICE      P_DID      
----------- ------------------------------ ---------- ---------- ----------      
-     P_SID SDATE                                                                
----------- ---------                                                            
-        10 Charmins Toilet Paper                 100          5         10      
-        11 10-OCT-18                                                            
-                                                                                
-        11 Ramon Noodle Soup                      50          2         10      
-        10 10-OCT-18                                                            
-                                                                                
-        12 Light Bulbs (4 pck.)                   40         10         10      
-        11 10-OCT-18                                                            
-                                                                                
-
-       PID PNAME                          PINVENTORY     PPRICE      P_DID      
----------- ------------------------------ ---------- ---------- ----------      
-     P_SID SDATE                                                                
----------- ---------                                                            
-        13 Asus Laptop                            20        500         10      
-        12 10-OCT-18                                                            
-                                                                                
-        14 Fresh Chicken Roast                    30          5         13      
-        10 10-OCT-18                                                            
-                                                                                
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Transaction;
 
-     T_MID TTIMESTAMP            TTOTAL                                         
----------- ----------------- ----------                                         
-        10 10/12/18 08:12:50         10                                         
-        11 10/12/18 09:00:21         40                                         
-        12 10/12/18 10:14:03         20                                         
-        13 10/12/18 10:53:42         15                                         
-        14 10/12/18 12:38:12          5                                         
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM MPhone;
 
-     M_MID MPHONE                                                               
----------- --------------                                                       
-        10 (616)-100-1212                                                       
-        11 (616)-110-1212                                                       
-        12 (616)-120-1212                                                       
-        13 (616)-130-1212                                                       
-        14 (616)-140-1212                                                       
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM EPhone;
 
-     E_MID EPHONE                                                               
----------- --------------                                                       
-        10 (616)-000-0000                                                       
-        11 (616)-001-0101                                                       
-        12 (616)-002-0202                                                       
-        13 (616)-003-0303                                                       
-        14 (616)-004-0404                                                       
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Prod_Trans;
 
-    PT_MID PT_TTIMESTAMP         PT_PID                                         
----------- ----------------- ----------                                         
-        10 10/12/18 08:12:50         10                                         
-        11 10/12/18 09:00:21         11                                         
-        12 10/12/18 10:14:03         12                                         
-        13 10/12/18 10:53:42         13                                         
-        14 10/12/18 12:38:12         14                                         
-
-5 rows selected.
+no rows selected
 
 SQL> --
 SQL> /*(Q01) Query joining 4 relations.
@@ -477,11 +361,7 @@ SQL> SELECT E.eID, E.eLast
   6  	   P.pName = 'Ramon Noodle Soup'
   7  ORDER BY E.eLast;
 
-       EID ELAST                                                                
----------- ---------------                                                      
-        14 North                                                                
-
-1 row selected.
+no rows selected
 
 SQL> --
 SQL> --
@@ -496,12 +376,7 @@ SQL> SELECT E1.eID, E1.eLast, E1.s_eID
   5  	   E1.eSalary <> E2.eSalary
   6  ORDER BY E1.eLast;
 
-       EID ELAST                S_EID                                           
----------- --------------- ----------                                           
-        14 North                   10                                           
-        10 Smith                   11                                           
-
-2 rows selected.
+no rows selected
 
 SQL> --
 SQL> --
@@ -519,11 +394,7 @@ SQL> SELECT eID, eLast
   8  	   J.j_dID = D.dID AND
   9  	   D.dName LIKE 'Salesfloor';
 
-       EID ELAST                                                                
----------- ---------------                                                      
-        14 North                                                                
-
-1 row selected.
+no rows selected
 
 SQL> --
 SQL> --
@@ -535,7 +406,7 @@ SQL> SELECT MAX(eSalary)
 
 MAX(ESALARY)                                                                    
 ------------                                                                    
-       55000                                                                    
+                                                                                
 
 1 row selected.
 
@@ -596,11 +467,7 @@ SQL> SELECT M.mID, M.mFirst
  10  			       PT.pt_pID = P.pID AND
  11  			       P.pName = 'Light Bulbs (4 pck.)'));
 
-       MID MFIRST                                                               
----------- ---------------                                                      
-        12 Carl                                                                 
-
-1 row selected.
+no rows selected
 
 SQL> --
 SQL> --
@@ -610,15 +477,7 @@ SQL> */
 SQL> SELECT M.mID, M.mFirst, T.tTimestamp, T.tTotal
   2  FROM Member M LEFT OUTER JOIN Transaction T ON M.mID = T.t_mID;
 
-       MID MFIRST          TTIMESTAMP            TTOTAL                         
----------- --------------- ----------------- ----------                         
-        10 John            10/12/18 08:12:50         10                         
-        11 Logan           10/12/18 09:00:21         40                         
-        12 Carl            10/12/18 10:14:03         20                         
-        13 Jones           10/12/18 10:53:42         15                         
-        14 Gordon          10/12/18 12:38:12          5                         
-
-5 rows selected.
+no rows selected
 
 SQL> --
 SQL> --
@@ -631,7 +490,7 @@ SQL> SELECT RANK(40000) WITHIN GROUP
 
 Rank of 30000                                                                   
 -------------                                                                   
-            4                                                                   
+            1                                                                   
 
 1 row selected.
 
@@ -648,13 +507,7 @@ SQL> SELECT E.eID, E.eLast, E.eSalary
   6  			       ORDER BY E.eSalary)
   7  			       WHERE ROWNUM < 3);
 
-       EID ELAST              ESALARY                                           
----------- --------------- ----------                                           
-        10 Smith                25000                                           
-        11 Howard               30000                                           
-        14 North                30000                                           
-
-3 rows selected.
+no rows selected
 
 SQL> --
 SQL> -- Testing: mIC01 (accept 1111 named Aaa)
@@ -768,41 +621,27 @@ SQL> SELECT * FROM Member;
 ---------- --------------- --------------- ------------------------------       
       MFEE M      A_MID                                                         
 ---------- - ----------                                                         
-        10 John            Smith           100 address                          
-       100 P         14                                                         
-                                                                                
-        11 Logan           Gardner         110 address                          
-       100 P         12                                                         
-                                                                                
-        12 Carl            Wheeler         120 address                          
-        80 A                                                                    
-                                                                                
-
-       MID MFIRST          MLAST           MADDRESS                             
----------- --------------- --------------- ------------------------------       
-      MFEE M      A_MID                                                         
----------- - ----------                                                         
-        13 Jones           Vikema          130 address                          
-       100 P                                                                    
-                                                                                
-        14 Gordon          Freddrick       140 address                          
-        80 A                                                                    
-                                                                                
       1111 Aaa             Aaa             123 4th Street                       
        100 P                                                                    
                                                                                 
-
-       MID MFIRST          MLAST           MADDRESS                             
----------- --------------- --------------- ------------------------------       
-      MFEE M      A_MID                                                         
----------- - ----------                                                         
       3331 Ccc             Ccc             123 4th Street                       
        100 P                                                                    
                                                                                 
       3332 Ccc             Ccc             123 4th Street                       
         80 A                                                                    
                                                                                 
+
+       MID MFIRST          MLAST           MADDRESS                             
+---------- --------------- --------------- ------------------------------       
+      MFEE M      A_MID                                                         
+---------- - ----------                                                         
       4441 Fff             Fff             123 4th Street                       
+        80 A                                                                    
+                                                                                
+      4442 Fff             Fff             123 4th Street                       
+       100 P                                                                    
+                                                                                
+      5552 Ggg             Ggg             123 4th Street                       
         80 A                                                                    
                                                                                 
 
@@ -810,17 +649,11 @@ SQL> SELECT * FROM Member;
 ---------- --------------- --------------- ------------------------------       
       MFEE M      A_MID                                                         
 ---------- - ----------                                                         
-      4442 Fff             Fff             123 4th Street                       
-       100 P                                                                    
-                                                                                
-      5552 Ggg             Ggg             123 4th Street                       
-        80 A                                                                    
-                                                                                
       5553 Ggg             Ggg             123 4th Street                       
        100 P                                                                    
                                                                                 
 
-12 rows selected.
+7 rows selected.
 
 SQL> SELECT * FROM Employee;
 
@@ -828,84 +661,23 @@ SQL> SELECT * FROM Employee;
 ---------- --------------- --------------- ------------------------------       
    ESALARY      S_EID      E_JID                                                
 ---------- ---------- ----------                                                
-        10 Jane            Smith           100 address                          
-     25000         11         10                                                
-                                                                                
-        11 Jill            Howard          110 address                          
-     30000                    13                                                
-                                                                                
-        12 Dave            Tillman         120 address                          
-     40000                    11                                                
-                                                                                
-
-       EID EFIRST          ELAST           EADDRESS                             
----------- --------------- --------------- ------------------------------       
-   ESALARY      S_EID      E_JID                                                
----------- ---------- ----------                                                
-        13 Mary            Freeman         130 address                          
-     55000                    14                                                
-                                                                                
-        14 Holly           North           100 address                          
-     30000         10         12                                                
-                                                                                
       2221 Ccc             Ccc             123 4th Street                       
      10000                  9999                                                
                                                                                 
 
-6 rows selected.
+1 row selected.
 
 SQL> SELECT * FROM Product;
 
-       PID PNAME                          PINVENTORY     PPRICE      P_DID      
----------- ------------------------------ ---------- ---------- ----------      
-     P_SID SDATE                                                                
----------- ---------                                                            
-        10 Charmins Toilet Paper                 100          5         10      
-        11 10-OCT-18                                                            
-                                                                                
-        11 Ramon Noodle Soup                      50          2         10      
-        10 10-OCT-18                                                            
-                                                                                
-        12 Light Bulbs (4 pck.)                   40         10         10      
-        11 10-OCT-18                                                            
-                                                                                
-
-       PID PNAME                          PINVENTORY     PPRICE      P_DID      
----------- ------------------------------ ---------- ---------- ----------      
-     P_SID SDATE                                                                
----------- ---------                                                            
-        13 Asus Laptop                            20        500         10      
-        12 10-OCT-18                                                            
-                                                                                
-        14 Fresh Chicken Roast                    30          5         13      
-        10 10-OCT-18                                                            
-                                                                                
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM Transaction;
 
-     T_MID TTIMESTAMP            TTOTAL                                         
----------- ----------------- ----------                                         
-        10 10/12/18 08:12:50         10                                         
-        11 10/12/18 09:00:21         40                                         
-        12 10/12/18 10:14:03         20                                         
-        13 10/12/18 10:53:42         15                                         
-        14 10/12/18 12:38:12          5                                         
-
-5 rows selected.
+no rows selected
 
 SQL> SELECT * FROM MPhone;
 
-     M_MID MPHONE                                                               
----------- --------------                                                       
-        10 (616)-100-1212                                                       
-        11 (616)-110-1212                                                       
-        12 (616)-120-1212                                                       
-        13 (616)-130-1212                                                       
-        14 (616)-140-1212                                                       
-
-5 rows selected.
+no rows selected
 
 SQL> --
 SQL> SPOOL OFF

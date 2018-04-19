@@ -174,6 +174,8 @@ INSERT INTO Member VALUES ('11', 'Logan', 'Gardner', '110 address', 100, 'P', 12
 INSERT INTO Member VALUES ('12', 'Carl', 'Wheeler', '120 address', 80, 'A', NULL);
 INSERT INTO Member VALUES ('13', 'Jones', 'Vikema', '130 address', 100, 'P', NULL);
 INSERT INTO Member VALUES ('14', 'Gordon', 'Freddrick', '140 address', 80, 'A', NULL);
+INSERT INTO Member VALUES ('15', 'Charlie', 'Jones', '150 address', 80, 'P', NULL);
+
 --
 INSERT INTO Department VALUES ('10', 'Salesfloor');
 INSERT INTO Department VALUES ('11', 'Checkout');
@@ -204,6 +206,7 @@ INSERT INTO Product VALUES ('11', 'Ramon Noodle Soup', 50, 2.00, '10', '10', TO_
 INSERT INTO Product VALUES ('12', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY')); 
 INSERT INTO Product VALUES ('13', 'Asus Laptop', 20, 500.00, '10', '12', TO_DATE('10/10/18', 'MM/DD/YY')); 
 INSERT INTO Product VALUES ('14', 'Fresh Chicken Roast', 30, 5.00, '13', '10', TO_DATE('10/10/18', 'MM/DD/YY')); 
+INSERT INTO Product VALUES ('15', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY')); 
 --
 INSERT INTO Transaction VALUES ('10', '10/12/18 08:12:50', 10);
 INSERT INTO Transaction VALUES ('11', '10/12/18 09:00:21', 40);
@@ -224,6 +227,8 @@ INSERT INTO EPhone VALUES ('13', '(616)-003-0303');
 INSERT INTO EPhone VALUES ('14', '(616)-004-0404');
 --
 INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '10');
+INSERT INTO Prod_Trans VALUES ('10', '10/12/18 09:12:50', '11');
+INSERT INTO Prod_Trans VALUES ('10', '10/12/18 10:12:50', '12');
 INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '11');
 INSERT INTO Prod_Trans VALUES ('12', '10/12/18 10:14:03', '12');
 INSERT INTO Prod_Trans VALUES ('13', '10/12/18 10:53:42', '13');
