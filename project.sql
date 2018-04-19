@@ -107,8 +107,7 @@ CONSTRAINT pIC02 FOREIGN KEY (p_dID)
 CONSTRAINT pIC03 FOREIGN KEY (p_sID) 
 	REFERENCES Supplier(sID)
 	ON DELETE CASCADE
-	DEFERRABLE INITIALLY DEFERRED,
-CONSTRAINT pIC04 CHECK (sDate LIKE '__/__/__')
+	DEFERRABLE INITIALLY DEFERRED
 );
 --
 CREATE TABLE Transaction
@@ -128,7 +127,7 @@ CONSTRAINT tIC03 CHECK (tTimestamp LIKE '__/__/__ __:__:__')
 CREATE TABLE MPhone
 (
 m_mID 		INTEGER,
-mPhone 		CHAR(12),
+mPhone 		CHAR(14),
 --
 CONSTRAINT mpIC01 PRIMARY KEY (m_mID, mPhone),
 CONSTRAINT mpIC02 FOREIGN KEY (m_mID) 
@@ -141,7 +140,7 @@ CONSTRAINT mpIC03 CHECK (mPhone LIKE '(___)-___-____')
 CREATE TABLE EPhone
 (
 e_mID 		INTEGER,
-ePhone 		CHAR(12),
+ePhone 		CHAR(14),
 --
 CONSTRAINT epIC01 PRIMARY KEY (e_mID, ePhone),
 CONSTRAINT epIC02 FOREIGN KEY (e_mID) 
@@ -173,22 +172,41 @@ SET FEEDBACK OFF
 Important: Keep the number of rows in each table small enough so that the results of your
 queries can be verified by hand. See the Sailors database as an example.
 SET FEEDBACK ON
+--
+-- Testing: mIC01 (accept 1111 named Aaa)
+INSERT INTO Member VALUES (null, 'Aaa', 'Aaa', '123 4th Street', 100, 'P', null);
+INSERT INTO Member VALUES (1111, 'Aaa', 'Aaa', '123 4th Street', 100, 'P', null);
+INSERT INTO Member VALUES (1111, 'Bbb', 'Bbb', '123 4th Street', 100, 'P', null);
+--
+-- Testing: eIC02 (accept 2222 with null supervisor)
+INSERT INTO Department VALUES (9999, 'Department');
+INSERT INTO Job VALUES (9999, 'Job', 9999);
+INSERT INTO Employee VALUES (2221, 'Ccc', 'Ccc', '123 4th Street', 10000, 2222, 9999);
+INSERT INTO Employee VALUES (2222, 'Ddd', 'Ddd', '123 4th Street', 10000, null, 9999);
+DELETE FROM Employee WHERE eID = 2222;
+--
+-- Testing: mIC03 (accept 3331, 3332)
+INSERT INTO Member VALUES (3330, 'Ccc', 'Ccc', '123 4th Street', 50, 'P', 321);
+INSERT INTO Member VALUES (3331, 'Ccc', 'Ccc', '123 4th Street', 100, 'P', null);
+INSERT INTO Member VALUES (3332, 'Ccc', 'Ccc', '123 4th Street', 80, 'A', null);
+--
+-- Testing: mIC04 (accept 4441, 4442)
+INSERT INTO Member VALUES (4440, 'Fff', 'Fff', '123 4th Street', 100, 'Z', null);
+INSERT INTO Member VALUES (4441, 'Fff', 'Fff', '123 4th Street', 80, 'A', null);
+INSERT INTO Member VALUES (4442, 'Fff', 'Fff', '123 4th Street', 100, 'P', null);
+--
+-- Testing: mIC05, mIC06 (accept 5552, 5553)
+INSERT INTO Member VALUES (5550, 'Ggg', 'Ggg', '123 4th Street', 100, 'A', null);
+INSERT INTO Member VALUES (5551, 'Ggg', 'Ggg', '123 4th Street', 80, 'P', null);
+INSERT INTO Member VALUES (5552, 'Ggg', 'Ggg', '123 4th Street', 80, 'A', null);
+INSERT INTO Member VALUES (5553, 'Ggg', 'Ggg', '123 4th Street', 100, 'P', null);
+--
 COMMIT;
 --
-< One query (per table) of the form: SELECT * FROM table; in order to print out your
-database >
---
-< The SQL queries>. Include the following for each query:
-1. A comment line stating the query number and the feature(s) it demonstrates
-(e.g. – Q25 – correlated subquery).
-2. A comment line stating the query in English.
-3. The SQL code for the query.
---
-< The insert/delete/update statements to test the enforcement of ICs >
-Include the following items for every IC that you test (Important: see the next section titled
-“Submit a final report” regarding which ICs to test).
-? A comment line stating: Testing: < IC name>
-? A SQL INSERT, DELETE, or UPDATE that will test the IC.
-COMMIT;
+SELECT * FROM Member;
+SELECT * FROM Employee;
+SELECT * FROM Product;
+SELECT * FROM Transaction;
+SELECT * FROM MPhone;
 --
 SPOOL OFF

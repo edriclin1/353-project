@@ -39,11 +39,8 @@ SQL> DROP TABLE MPhone CASCADE CONSTRAINTS;
 Table dropped.
 
 SQL> DROP TABLE EPhone CASCADE CONSTRAINTS;
-DROP TABLE EPhone CASCADE CONSTRAINTS
-           *
-ERROR at line 1:
-ORA-00942: table or view does not exist 
 
+Table dropped.
 
 SQL> DROP TABLE Prod_Trans CASCADE CONSTRAINTS;
 
@@ -154,9 +151,8 @@ SQL> CREATE TABLE Product
  16  CONSTRAINT pIC03 FOREIGN KEY (p_sID)
  17  	     REFERENCES Supplier(sID)
  18  	     ON DELETE CASCADE
- 19  	     DEFERRABLE INITIALLY DEFERRED,
- 20  CONSTRAINT pIC04 CHECK (sDate LIKE '__/__/__')
- 21  );
+ 19  	     DEFERRABLE INITIALLY DEFERRED
+ 20  );
 
 Table created.
 
@@ -181,7 +177,7 @@ SQL> --
 SQL> CREATE TABLE MPhone
   2  (
   3  m_mID	     INTEGER,
-  4  mPhone	     CHAR(12),
+  4  mPhone	     CHAR(14),
   5  --
   6  CONSTRAINT mpIC01 PRIMARY KEY (m_mID, mPhone),
   7  CONSTRAINT mpIC02 FOREIGN KEY (m_mID)
@@ -197,7 +193,7 @@ SQL> --
 SQL> CREATE TABLE EPhone
   2  (
   3  e_mID	     INTEGER,
-  4  ePhone	     CHAR(12),
+  4  ePhone	     CHAR(14),
   5  --
   6  CONSTRAINT epIC01 PRIMARY KEY (e_mID, ePhone),
   7  CONSTRAINT epIC02 FOREIGN KEY (e_mID)
@@ -238,30 +234,175 @@ SP2-0734: unknown command beginning "Important:..." - rest of line ignored.
 SQL> queries can be verified by hand. See the Sailors database as an example.
 SP2-0734: unknown command beginning "queries ca..." - rest of line ignored.
 SQL> SET FEEDBACK ON
+SQL> --
+SQL> -- Testing: mIC01 (accept 1111 named Aaa)
+SQL> INSERT INTO Member VALUES (null, 'Aaa', 'Aaa', '123 4th Street', 100, 'P', null);
+INSERT INTO Member VALUES (null, 'Aaa', 'Aaa', '123 4th Street', 100, 'P', null)
+                           *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("LINE"."MEMBER"."MID") 
+
+
+SQL> INSERT INTO Member VALUES (1111, 'Aaa', 'Aaa', '123 4th Street', 100, 'P', null);
+
+1 row created.
+
+SQL> INSERT INTO Member VALUES (1111, 'Bbb', 'Bbb', '123 4th Street', 100, 'P', null);
+INSERT INTO Member VALUES (1111, 'Bbb', 'Bbb', '123 4th Street', 100, 'P', null)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (LINE.MIC01) violated 
+
+
+SQL> --
+SQL> -- Testing: eIC02 (accept 2222 with null supervisor)
+SQL> INSERT INTO Department VALUES (9999, 'Department');
+
+1 row created.
+
+SQL> INSERT INTO Job VALUES (9999, 'Job', 9999);
+
+1 row created.
+
+SQL> INSERT INTO Employee VALUES (2221, 'Ccc', 'Ccc', '123 4th Street', 10000, 2222, 9999);
+
+1 row created.
+
+SQL> INSERT INTO Employee VALUES (2222, 'Ddd', 'Ddd', '123 4th Street', 10000, null, 9999);
+
+1 row created.
+
+SQL> DELETE FROM Employee WHERE eID = 2222;
+
+1 row deleted.
+
+SQL> --
+SQL> -- Testing: mIC03 (accept 3331, 3332)
+SQL> INSERT INTO Member VALUES (3330, 'Ccc', 'Ccc', '123 4th Street', 50, 'P', 321);
+INSERT INTO Member VALUES (3330, 'Ccc', 'Ccc', '123 4th Street', 50, 'P', 321)
+*
+ERROR at line 1:
+ORA-02290: check constraint (LINE.MIC05) violated 
+
+
+SQL> INSERT INTO Member VALUES (3331, 'Ccc', 'Ccc', '123 4th Street', 100, 'P', null);
+
+1 row created.
+
+SQL> INSERT INTO Member VALUES (3332, 'Ccc', 'Ccc', '123 4th Street', 80, 'A', null);
+
+1 row created.
+
+SQL> --
+SQL> -- Testing: mIC04 (accept 4441, 4442)
+SQL> INSERT INTO Member VALUES (4440, 'Fff', 'Fff', '123 4th Street', 100, 'Z', null);
+INSERT INTO Member VALUES (4440, 'Fff', 'Fff', '123 4th Street', 100, 'Z', null)
+*
+ERROR at line 1:
+ORA-02290: check constraint (LINE.MIC04) violated 
+
+
+SQL> INSERT INTO Member VALUES (4441, 'Fff', 'Fff', '123 4th Street', 80, 'A', null);
+
+1 row created.
+
+SQL> INSERT INTO Member VALUES (4442, 'Fff', 'Fff', '123 4th Street', 100, 'P', null);
+
+1 row created.
+
+SQL> --
+SQL> -- Testing: mIC05, mIC06 (accept 5552, 5553)
+SQL> INSERT INTO Member VALUES (5550, 'Ggg', 'Ggg', '123 4th Street', 100, 'A', null);
+INSERT INTO Member VALUES (5550, 'Ggg', 'Ggg', '123 4th Street', 100, 'A', null)
+*
+ERROR at line 1:
+ORA-02290: check constraint (LINE.MIC06) violated 
+
+
+SQL> INSERT INTO Member VALUES (5551, 'Ggg', 'Ggg', '123 4th Street', 80, 'P', null);
+INSERT INTO Member VALUES (5551, 'Ggg', 'Ggg', '123 4th Street', 80, 'P', null)
+*
+ERROR at line 1:
+ORA-02290: check constraint (LINE.MIC05) violated 
+
+
+SQL> INSERT INTO Member VALUES (5552, 'Ggg', 'Ggg', '123 4th Street', 80, 'A', null);
+
+1 row created.
+
+SQL> INSERT INTO Member VALUES (5553, 'Ggg', 'Ggg', '123 4th Street', 100, 'P', null);
+
+1 row created.
+
+SQL> --
 SQL> COMMIT;
 
 Commit complete.
 
 SQL> --
-SQL> < One query (per table) of the form: SELECT * FROM table; in order to print out your
-SP2-0734: unknown command beginning "< One quer..." - rest of line ignored.
-SQL> database >
-SP2-0042: unknown command "database >" - rest of line ignored.
-SQL> --
-SQL> < The SQL queries>. Include the following for each query:
-SP2-0734: unknown command beginning "< The SQL ..." - rest of line ignored.
-SQL> 1. A comment line stating the query number and the feature(s) it demonstrates
-SP2-0734: unknown command beginning "1. A comme..." - rest of line ignored.
-SQL> (e.g. – Q25 – correlated subquery).
-  2  2. A comment line stating the query in English.
-  3  3. The SQL code for the query.
-  4  --
-  5  < The insert/delete/update statements to test the enforcement of ICs >
-  6  Include the following items for every IC that you test (Important: see the next section titled
-  7  “Submit a final report” regarding which ICs to test).
-  8  ? A comment line stating: Testing: < IC name>
-  9  ? A SQL INSERT, DELETE, or UPDATE that will test the IC.
- 10  COMMIT;
-SP2-0552: Bind variable "TESTING" not declared.
+SQL> SELECT * FROM Member;
+
+       MID MFIRST     MLAST      MADDRESS                             MFEE M    
+---------- ---------- ---------- ------------------------------ ---------- -    
+     A_MID                                                                      
+----------                                                                      
+      1111 Aaa        Aaa        123 4th Street                        100 P    
+                                                                                
+                                                                                
+      3331 Ccc        Ccc        123 4th Street                        100 P    
+                                                                                
+                                                                                
+      3332 Ccc        Ccc        123 4th Street                         80 A    
+                                                                                
+                                                                                
+
+       MID MFIRST     MLAST      MADDRESS                             MFEE M    
+---------- ---------- ---------- ------------------------------ ---------- -    
+     A_MID                                                                      
+----------                                                                      
+      4441 Fff        Fff        123 4th Street                         80 A    
+                                                                                
+                                                                                
+      4442 Fff        Fff        123 4th Street                        100 P    
+                                                                                
+                                                                                
+      5552 Ggg        Ggg        123 4th Street                         80 A    
+                                                                                
+                                                                                
+
+       MID MFIRST     MLAST      MADDRESS                             MFEE M    
+---------- ---------- ---------- ------------------------------ ---------- -    
+     A_MID                                                                      
+----------                                                                      
+      5553 Ggg        Ggg        123 4th Street                        100 P    
+                                                                                
+                                                                                
+
+7 rows selected.
+
+SQL> SELECT * FROM Employee;
+
+       EID EFIRST     ELAST      EADDRESS                          ESALARY      
+---------- ---------- ---------- ------------------------------ ----------      
+     S_EID      E_JID                                                           
+---------- ----------                                                           
+      2221 Ccc        Ccc        123 4th Street                      10000      
+                 9999                                                           
+                                                                                
+
+1 row selected.
+
+SQL> SELECT * FROM Product;
+
+no rows selected
+
+SQL> SELECT * FROM Transaction;
+
+no rows selected
+
+SQL> SELECT * FROM MPhone;
+
+no rows selected
+
 SQL> --
 SQL> SPOOL OFF
